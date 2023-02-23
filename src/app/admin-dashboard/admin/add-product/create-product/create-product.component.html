@@ -1,0 +1,108 @@
+<section>
+    <div >
+        <h6>Create a New product</h6>
+    </div>
+    <div class="container-form">
+        <div class="container">
+            <div class="row" style="margin-bottom: 14px;">
+                <div class="col-2" *ngFor="let image of images; let i = index">
+                    <div class="img-div">
+                        <i class="fa fa-times" aria-hidden="true" (click)="deleteImg(i)"></i>
+                        <img title="{{images.name}}" height="100px" width="100px" [src]="image.url" />
+                    </div>
+                </div>
+                <div class="col-md" >
+                    <div >
+                        <!-- <label class="fileUpload-label" for="file-input">
+                            <img src="assets/img/uploadImg.png" width="50px" height="50px"  />
+                            <i class="fa fa-plus plus-icon" aria-hidden=""></i>
+                        </label> -->
+                        <input  type="file" multiple="multiple" (change)="imgURL($event)"/>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="createProduct">
+                <div class="row ">
+                    <div class="col-md-6">
+                        <input class="form-control" placeholder="Specify Product name" formControlName="product_name" >
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" placeholder="Specify Product Print name" formControlName="print_name" >
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6"  style="margin-top: 4px;">
+                        <label>Is product packed or loose?</label><br>
+                        <mat-radio-group class="radio-btn" formControlName="packing_type" required (change)="getProductType($event)">
+                            <mat-radio-button value="p"> </mat-radio-button><label>Pieces</label>
+                            <mat-radio-button value="l"></mat-radio-button><label>loose</label>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-md-6" style="margin-top: 4px;">
+                        <select class="form-control" name="cat" (change)="onCategoryChange($event.target)" formControlName="category">
+                            <option value="">Select Category</option>
+                            <option *ngFor="let cate of categorylist" [value]="cate.id" #cat>{{cate.name}}</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="row ">
+                    <div class="col-md-6"  style="margin-top: 4px;">
+                        <select class="form-control " name="subcat" (change)="onSubCategoryChange($event.target)" formControlName="sub_category">
+                            <option value="">Select Sub Category</option>
+                            <option *ngFor="let subCate of subCategorylist" [value]="subCate.id">{{subCate.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6" style="margin-top: 4px;" >
+                        <select class="form-control " name="brand" (change)="onBrandChange($event.target)" formControlName="brand_name">
+                            <option value="">Select Brand</option>
+                            <option *ngFor="let brand of brandlist" [value]="brand.id">{{brand.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6" style="margin-top: 4px;">
+                        <input type="text" class="form-control" placeholder="Hsn"  formControlName="hsn">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 4px;">
+                        <select class="form-control " name="nature" (change)="onNatureChange($event.target)" formControlName="nature">
+                            <option value="">Select Nature</option>
+                            <option *ngFor="let nature of naturelist" [value]="nature.id">{{nature.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-6" style="margin-top: 4px;">
+                        <input type="text" class="form-control" placeholder="Short Description"  formControlName="describtion">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 4px;">
+                      <ng-multiselect-dropdown
+                      [placeholder]="'Select Internal Tags'"
+                      [settings]="dropdownSettings"
+                      [data]="internalTags"
+                      (onSelect)="onItemSelect($event)"
+                     >
+                    </ng-multiselect-dropdown>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px; padding-bottom: 10px;">
+                        <input type="checkbox" name="freeProduct" (onchange)="onFreeChange($event.target)" formControlName="free_product"/>
+                        <label>Add this as a free product</label>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px; padding-bottom: 10px;"  *ngIf="showCarryBag">
+                        <input  type="checkbox" name="carryBag" (onchange)="onCarryBagChange($event)" />
+                        <label>Add this as a carry bag product</label>
+                    </div>
+
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn cancelBtn btn-outline-secondary" routerLink="/admin/product">
+                        Cancel</button>
+                    <button type="submit" class="btn createBtn btn-outline-secondary" (click)="addProduct()"> Create Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

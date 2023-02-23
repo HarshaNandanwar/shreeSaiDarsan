@@ -1,0 +1,53 @@
+<section class="">
+    <div class="">
+        <h4>
+            <a class="btn"  routerLink="/admin/product"> <i class="fa fa-arrow-left" style="color:black" aria-hidden="true"></i> </a> Products #{{id}}</h4> 
+    </div>
+    <div>
+        <div>
+            <div>
+                <h4>PRODUCT IMAGES</h4>
+                <div>
+                    <img  width="100px" height="100px" src="{{view_product.file[0].file}}" alt=""> 
+                </div>
+            </div>
+            <div  >
+                <h4>Product Info</h4>
+                <div class="row ">
+                    <div class=" col-5 ">
+                        <p>Product Name</p>
+                        <h4>{{view_product.product_name}}</h4>
+                    </div>
+                    <div class="col-5 ">
+                        <p>Product's Print Name</p>
+                        <h4>{{view_product.print_name}}</h4>
+                    </div>
+                    <div class="col-5 ">
+                        <p>Packed/Loose</p>
+                        <h4>{{view_product.packing_type=="l"?"Loose":"Pieces"}}</h4>
+                    </div>
+                    <div class="col-5 ">
+                        <p>Category</p>
+                        <h4>{{view_product.categorydetails.name}}</h4>
+                    </div>
+                    <div class="col-5 ">
+                        <p>Nature</p>
+                        <h4>{{view_product.nature.name}}</h4>
+                    </div>
+                    <div class="col-5 ">
+                        <p>Description</p>
+                        <h4>{{view_product.product_detail}}</h4>
+                    </div>
+                    <div class="col-5 productDescription" >
+                        <p>Tags</p>
+                        <ng-container  *ngFor="let tag of view_product.internal_tags">  
+                            <h4>{{tag.name}}</h4>
+                        </ng-container>
+                       
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

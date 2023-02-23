@@ -1,0 +1,205 @@
+<section class="products">
+    <div class="topnav">
+        <h4 style="display: contents;">Products</h4>
+        <button type="button" class="float-right btn btn-sm" style="background-color: #4967a4; color: azure;"
+            routerLink="/admin/create-product">CREATE A NEW PRODUCT
+        </button>
+    </div>
+    <br>
+    <form>
+        <div class="row">
+            <div class=" col-2">
+                <input type="name" class="form-control" placeholder="Search Product" name="pname"
+                    (keyup)="searchProduct()" name="pname" [(ngModel)]="searchData.name">
+            </div>
+            <div class="col-2">
+                <input type="name" class="form-control" placeholder=" Search Barcode" name="pbarcode"
+                    [(ngModel)]="searchData.barcode" (keyup)="searchProduct()">
+            </div>
+            <div class="col-2">
+                <select class="form-control" name="packingtype" [(ngModel)]="searchData.packing_type"
+                    (change)="searchProduct()">
+                    <option value="">Select Packaging</option>
+                    <option value="n">none</option>
+                    <option value="p">Pieces</option>
+                    <option value="l">Loose</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" name="cat" [(ngModel)]="searchData.categories" (change)="searchProduct()">
+                    <option value="">Select Category</option>
+                    <option *ngFor="let cate of category" [value]="cate.id">{{cate.name}}</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" name="nature" [(ngModel)]="searchData.nature" (change)="searchProduct()">
+                    <option value="">Select Nature</option>
+                    <option *ngFor="let natr of nature" [value]="natr.id">{{natr.name}}</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" [(ngModel)]="searchData.inventory_status" name="purchase"
+                    (change)="searchProduct()">
+                    <option value="">Select Purchase Status</option>
+                    <option value="y">Added</option>
+                    <option value="n">Not Added</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select class="form-control" [(ngModel)]="searchData.internal_tag" name="cat"
+                    (change)="searchProduct()">
+                    <option value="">Select Internal Tag</option>
+                    <option *ngFor="let tag of internalTags" [value]="tag.id">{{tag.name}}</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        <mat-tab-group (selectedTabChange)="tabClick($event)">
+            <mat-tab label="Normal Products">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.no</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Packed/Loose</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Nature</th>
+                            <th scope="col">Purchase Status</th>
+                            <th scope="col">Internal Tags</th>
+                            <th scope="col">Created By</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of productData ; let i = index">
+                            <!-- S no -->
+                            <th scope="row">{{0 + i + 1}}</th>
+                            <!-- product name -->
+                            <td>
+                                <img style="width: 30px; height: 30px;" src="" alt="">
+                                {{data.product_name}}
+                            </td>
+                            <!-- packed/loose -->
+                            <td>{{data.packing_type ==='p' ? "Pieces" : "Loose" }}</td>
+                            <!-- category -->
+                            <td>
+                                {{data.categorydetails?data.categorydetails.name:'-'}}
+                            </td>
+                            <!-- nature -->
+                            <td>{{data.nature?data.nature.name:'-'}}</td>
+                            <!-- purchase status -->
+                            <ng-container *ngIf="searchData.get_all_deleted!='y'">
+                                <td *ngIf="data.bill_id" style="cursor: pointer; color: #4967a4;">View Purchase</td>
+                                <td *ngIf="!data.bill_id">Not Added</td>
+                            </ng-container>
+                            <!-- internal tag -->
+                            <td>
+                                <ng-container *ngFor="let i of data.internal_tags">
+                                    <p class="product-tag">{{i.name?i.name:"-"}}</p>
+                                </ng-container>
+                            </td>
+                            <!-- created by -->
+                            <td>{{data.created_by?data.created_by:'-'}}</td>
+                            <!-- action -->
+                            <td style="width: 18%;">
+                                <button type="button" class="btn btn-sm" style="color: #4967a4;"
+                                    (click)="viewProduct(data.id)">
+                                    View
+                                </button>
+                                <ng-container>
+                                    <button class="btn btn-sm" (click)="editProduct(data.id)"><i class="fa fa-pencil"
+                                            aria-hidden="true"></i></button>
+                                    <button class="btn btn-sm" (click)="deleteproduct(data)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li>
+                            <a class="page-link" (click)="previousPage($event)">Previous</a>
+                        </li>
+                        <li>
+                            <a class="page-link" (click)="nextPage($event)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </mat-tab>
+
+            <mat-tab label="Soft Deleted Product">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.no</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Packed/Loose</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Nature</th>
+                            <th scope="col">Purchase Status</th>
+                            <th scope="col">Internal Tags</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of productData; let i = index">
+                            <!-- sno -->
+                            <th scope="row">{{0 + i + 1}}</th>
+                            <td>
+                                <!-- product name -->
+                                <img style="width: 30px; height: 30px;"  src="" alt="">
+                                {{data.product_name}}
+                            </td>
+                            <!-- packaging -->
+                            <td>{{data.packing_type ==='p' ? "Pieces" : "Loose" }}</td>
+                            <td>
+                                <!-- category -->
+                                {{data.categorydetails?data.categorydetails.name:'-'}}
+                            </td>
+                            <!-- nature -->
+                            <td>{{data.nature?data.nature.name:'-'}}</td>
+                            <!-- purchase status -->
+                            <td style="color: red;">deleted product</td>
+                            <!-- internal tag -->
+                            <td>
+                                <ng-container *ngFor="let i of data.internal_tags">
+                                    <p class="product-tag">{{i.name?i.name:"-"}}</p>
+                                </ng-container>
+                            </td>
+                            <!-- buttons -->
+                            <td style="width: 18%;">
+                                <button type="button" class="btn btn-sm" (click)="viewProduct(data.id)">
+                                    <i class="ri-arrow-right-line view-icon"></i>View</button>
+                                <ng-container>
+                                    <button class="btn btn-sm" (click)="editProduct(data.id)">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-sm" (click)="permanentlyDelete(data)" >
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-sm" (click)="restoreProduct(data)">
+                                        <i class="fa fa-repeat"aria-hidden="true"></i>
+                                    </button>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li>
+                            <a class="page-link" (click)="previousPage($event)">Previous</a>
+                        </li>
+                        <li>
+                            <a class="page-link" (click)="nextPage($event)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</section>
