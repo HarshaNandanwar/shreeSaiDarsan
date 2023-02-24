@@ -6,7 +6,7 @@ import { AdminComponent } from './admin.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, NgSelectOption, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OperatorComponent } from './operator/operator.component';

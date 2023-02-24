@@ -57,8 +57,8 @@
 
     <div>
         <mat-tab-group (selectedTabChange)="tabClick($event)">
-            <mat-tab label="Normal Products">
-                <table class="table">
+            <mat-tab label="Normal Products" backgroundColor="primary">
+                <table class="table" backgroundColor="primary">
                     <thead>
                         <tr>
                             <th scope="col">S.no</th>
@@ -78,7 +78,7 @@
                             <th scope="row">{{0 + i + 1}}</th>
                             <!-- product name -->
                             <td>
-                                <img style="width: 30px; height: 30px;" src="" alt="">
+                                <img *ngIf="productData[i].file.length!=0" style="width: 30px; height: 30px;" src="{{productData[i].file[0].file}}" alt="">
                                 {{data.product_name}}
                             </td>
                             <!-- packed/loose -->
@@ -151,7 +151,7 @@
                             <th scope="row">{{0 + i + 1}}</th>
                             <td>
                                 <!-- product name -->
-                                <img style="width: 30px; height: 30px;"  src="" alt="">
+                                <img *ngIf="productData[i].file.length!=0" style="width: 30px; height: 30px;" src="{{productData[i].file[0].file}}" alt="">
                                 {{data.product_name}}
                             </td>
                             <!-- packaging -->

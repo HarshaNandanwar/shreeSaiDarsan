@@ -42,6 +42,8 @@ export class AddProductComponent implements OnInit{
     this.natureList();
     this.internalTagList();
     this.productList();
+  
+    
   }
 
   categoryList() {
@@ -73,6 +75,9 @@ export class AddProductComponent implements OnInit{
       this.prev_page = d.data.current_page
       this.productData = d.data.data;
       this.last_page = d.data.last_page;
+      console.log(this.productData);
+      console.log(this.productData[0].file[0].file);
+      
     },(err: any) => console.log(err))
   }
 
